@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Получить код
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Настроить Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # 3. Войти в Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 4. Собрать и отправить Docker образ
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/todo-app:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/todo-app:${{ github.sha }}
+
+      # 5. Деплой (симуляция для учебных целей)
+      - name: Kubernetes Deployment
+        run: |
+          echo "Docker image pushed successfully!"
+          echo "Image: ${{ secrets.DOCKERHUB_USERNAME }}/todo-app:latest"
+          echo ""
+          echo "In production, deployment would happen with:"
+          echo "   kubectl apply -f k8s/"
+          echo "   kubectl rollout status deployment/todo-app -n todo-app"
+          echo ""
+          echo "For this educational project, deployment was done manually to Minikube.

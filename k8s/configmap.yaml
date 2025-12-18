@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-app-config
+  namespace: todo-app
+data:
+  MONGO_URI: "mongodb://mongodb-service.todo-app.svc.cluster.local:27017/todo_db"
+  PORT: "8080"
