@@ -26,7 +26,6 @@ WORKDIR /root/
 
 # Копируем бинарный файл
 COPY --from=builder /app/main .
-COPY --from=builder /app/.env .
 
 # Экспонируем порт
 EXPOSE 8080
