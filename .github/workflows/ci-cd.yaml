@@ -26,7 +26,6 @@ jobs:
             -u "${{ secrets.DOCKERHUB_USERNAME }}" \
             --password-stdin
 
-      # 4. Перетегировать и отправить
       - name: Tag and push to Docker Hub
         run: |
           # Перетегировать с именем пользователя
@@ -37,7 +36,6 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/todo-app:latest
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/todo-app:${{ github.sha }}
 
-      # 6. Информация о результате
       - name: Show success message
         run: |
           echo "CI/CD Pipeline Completed!"
