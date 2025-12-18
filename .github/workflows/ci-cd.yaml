@@ -19,7 +19,7 @@ jobs:
           docker build -t todo-app:${{ github.sha }} .
           docker tag todo-app:${{ github.sha }} todo-app:latest
 
-      # 3. Войти в DockerHub
+      # 3. Войти в Docker Hub
       - name: Login to Docker Hub
         run: |
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
